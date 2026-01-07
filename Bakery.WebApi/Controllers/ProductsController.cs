@@ -1,4 +1,5 @@
 ﻿using Bakery.Core.Entities;
+using Bakery.WebApi.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bakery.WebApi.Controllers
@@ -17,8 +18,15 @@ namespace Bakery.WebApi.Controllers
                 new Product("Cake", 15.00m)
             };
 
-            return Ok(products);
+            var productDtos = products.Select(p => new ProductDto
+            {
+                Name = p.Name,
+                Price = p.Price
+            });
+
+            return Ok(productDtos);
         }
     }
 }
+
 
