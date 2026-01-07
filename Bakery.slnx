@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="Bakery.Core/Bakery.Core.csproj" />
+  <Project Path="Bakery.WebApi/Bakery.WebApi.csproj" />
 </Solution>
