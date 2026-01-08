@@ -32,6 +32,12 @@ namespace Bakery.Core.Entities
         {
             IsActive = false;
         }
+
+        public bool CanBeSold()
+        {
+            return IsActive;
+        }
+
     }
 }
 

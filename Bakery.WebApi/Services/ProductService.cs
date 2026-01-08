@@ -7,13 +7,16 @@ namespace Bakery.WebApi.Services
     {
         public IEnumerable<Product> GetAll()
         {
-            return new List<Product>
+            var products = new List<Product>
             {
                 new Product("Bread", 2.50m),
                 new Product("Croissant", 1.80m),
                 new Product("Cake", 15.00m)
             };
+
+            return products.Where(p => p.CanBeSold());
         }
+
     }
 }
 
