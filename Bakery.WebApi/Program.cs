@@ -1,7 +1,14 @@
 using Bakery.Core.Services;
 using Bakery.Infrastructure.Services;
+using Bakery.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<BakeryDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("BakeryDb")));
 
 // Add services to the container.
 builder.Services.AddControllers();
