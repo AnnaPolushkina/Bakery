@@ -1,37 +1,40 @@
-﻿using Bakery.Core.Entities;
+﻿using Bakery.Core;
+using Bakery.Core.Entities;
 using Bakery.Core.Services;
+using Bakery.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
-namespace Bakery.Infrastructure.Services
+namespace Bakery.Infrastructure.Services;
+
+public class ProductService : IProductService
 {
-    public class ProductService : IProductService
+    private readonly BakeryDbContext _context;
+
+    public ProductService(BakeryDbContext context)
     {
-        private readonly List<Product> _products;
+        _context = context;
+    }
 
-        public ProductService()
-        {
-            _products = new List<Product>
-            {
-                new Product("Bread", 2.50m),
-                new Product("Croissant", 1.80m),
-                new Product("Cake", 15.00m)
-            };
-        }
+    public IEnumerable<Product> GetAll()
+    {
+        return _context.Products
+            .Where(p => p.IsActive)
+            .AsNoTracking()
+            .ToList();
+    }
 
-        public IEnumerable<Product> GetAll()
-        {
-            return _products.Where(p => p.CanBeSold());
-        }
+    public void Deactivate(Guid productId)
+    {
+        var product = _context.Products.FirstOrDefault(p => p.Id == productId);
 
-        public void Deactivate(Guid productId)
-        {
-            var product = _products.SingleOrDefault(p => p.Id == productId);
+        if (product == null)
+            throw new InvalidOperationException("Product not found.");
 
-            if (product == null)
-                throw new InvalidOperationException("Product not found.");
+        product.Deactivate();
 
-            product.Deactivate();
-        }
+        _context.SaveChanges();
     }
 }
+
 
 
