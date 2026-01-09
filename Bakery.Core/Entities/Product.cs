@@ -30,8 +30,12 @@ namespace Bakery.Core.Entities
 
         public void Deactivate()
         {
+            if (!IsActive)
+                throw new InvalidOperationException("Product is already deactivated.");
+
             IsActive = false;
         }
+
 
         public bool CanBeSold()
         {
