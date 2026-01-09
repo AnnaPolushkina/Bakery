@@ -12,4 +12,14 @@ public class BakeryDbContext : DbContext
     }
 
     public DbSet<Product> Products => Set<Product>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Product>(entity =>
+        {
+            entity.Property(p => p.Price)
+                  .HasPrecision(10, 2);
+        });
+    }
+
 }
