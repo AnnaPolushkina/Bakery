@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="Bakery.Core/Bakery.Core.csproj" />
+  <Project Path="Bakery.Infrastructure/Bakery.Infrastructure.csproj" Id="625f0a52-6075-4e6d-9b9a-d3656b379372" />
   <Project Path="Bakery.WebApi/Bakery.WebApi.csproj" />
 </Solution>

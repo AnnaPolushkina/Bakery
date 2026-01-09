@@ -1,7 +1,7 @@
 ﻿using Bakery.Core.Entities;
 using Bakery.Core.Services;
 
-namespace Bakery.WebApi.Services
+namespace Bakery.Infrastructure.Services
 {
     public class ProductService : IProductService
     {

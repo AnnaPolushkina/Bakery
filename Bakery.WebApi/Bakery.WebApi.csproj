@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bakery.Core\Bakery.Core.csproj" />
+    <ProjectReference Include="..\Bakery.Infrastructure\Bakery.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

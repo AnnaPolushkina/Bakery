@@ -1,5 +1,5 @@
 using Bakery.Core.Services;
-using Bakery.WebApi.Services;
+using Bakery.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
