@@ -2,6 +2,8 @@ using Bakery.Core.Services;
 using Bakery.Infrastructure.Services;
 using Bakery.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Bakery.Infrastructure.Seed;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +19,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<BakeryDbContext>();
+    ProductSeeder.Seed(context);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
