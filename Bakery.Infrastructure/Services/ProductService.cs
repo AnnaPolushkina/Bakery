@@ -15,26 +15,24 @@ public class ProductService : IProductService
         _context = context;
     }
 
-    public IEnumerable<Product> GetAll()
+    public async Task<IEnumerable<Product>> GetAllAsync()
     {
-        return _context.Products
+        return await _context.Products
             .Where(p => p.IsActive)
             .AsNoTracking()
-            .ToList();
+            .ToListAsync();
     }
 
-    public void Deactivate(Guid productId)
+    public async Task DeactivateAsync(Guid productId)
     {
-        var product = _context.Products.FirstOrDefault(p => p.Id == productId);
+        var product = await _context.Products
+            .FirstOrDefaultAsync(p => p.Id == productId);
 
         if (product == null)
             throw new InvalidOperationException("Product not found.");
 
         product.Deactivate();
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 }
-
-
-

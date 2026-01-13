@@ -16,9 +16,9 @@ namespace Bakery.WebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetProducts()
+        public async Task<IActionResult> GetProducts()
         {
-            var products = _productService.GetAll();
+            var products = await _productService.GetAllAsync();
 
             var productDtos = products.Select(p => new ProductDto
             {
@@ -32,9 +32,9 @@ namespace Bakery.WebApi.Controllers
         }
 
         [HttpPost("{id}/deactivate")]
-        public IActionResult DeactivateProduct(Guid id)
+        public async Task<IActionResult> DeactivateProduct(Guid id)
         {
-            _productService.Deactivate(id);
+            await _productService.DeactivateAsync(id);
             return NoContent();
         }
 

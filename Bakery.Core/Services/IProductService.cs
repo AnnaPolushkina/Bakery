@@ -4,8 +4,9 @@ namespace Bakery.Core.Services
 {
     public interface IProductService
     {
-        IEnumerable<Product> GetAll();
-        void Deactivate(Guid productId);
+        Task<IEnumerable<Product>> GetAllAsync();
+        Task DeactivateAsync(Guid productId);
+
 
     }
 }
