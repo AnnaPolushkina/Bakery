@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Bakery.Core.Entities
+﻿namespace Bakery.Core.Entities
 {
     public class Product
     {
         public Guid Id { get; private set; }
-
         public string Name { get; private set; }
-
         public decimal Price { get; private set; }
-
         public bool IsActive { get; private set; }
 
         public Product(string name, decimal price)
@@ -35,7 +28,6 @@ namespace Bakery.Core.Entities
 
             IsActive = false;
         }
-
 
         public bool CanBeSold()
         {
