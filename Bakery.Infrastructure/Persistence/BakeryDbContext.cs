@@ -13,6 +13,8 @@ public class BakeryDbContext : DbContext
 
     public DbSet<Product> Products => Set<Product>();
 
+    public DbSet<Client> Clients => Set<Client>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Product>(entity =>

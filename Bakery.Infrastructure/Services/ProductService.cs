@@ -1,5 +1,4 @@
-﻿using Bakery.Core;
-using Bakery.Core.Entities;
+﻿using Bakery.Core.Entities;
 using Bakery.Core.Services;
 using Bakery.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
