@@ -24,7 +24,9 @@ namespace Bakery.WebApi.Controllers
             {
                 Id = p.Id,
                 Name = p.Name,
-                Price = p.Price
+                Price = p.Price,
+                CanBeDeactivated = true
+
             });
 
 
@@ -34,8 +36,15 @@ namespace Bakery.WebApi.Controllers
         [HttpPost("{id}/deactivate")]
         public async Task<IActionResult> DeactivateProduct(Guid id)
         {
-            await _productService.DeactivateAsync(id);
-            return NoContent();
+            try
+            {
+                await _productService.DeactivateAsync(id);
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
         }
 
     }

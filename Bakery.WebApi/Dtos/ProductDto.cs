@@ -3,9 +3,11 @@
     public class ProductDto
     {
         public Guid Id { get; set; }
-        public required string Name { get; set; }
+        public string Name { get; set; } = null!;
         public decimal Price { get; set; }
+        public bool CanBeDeactivated { get; set; }
     }
+
 }
 
 
