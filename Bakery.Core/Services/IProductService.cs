@@ -1,13 +1,11 @@
 ﻿using Bakery.Core.Entities;
 
-namespace Bakery.Core.Services
+namespace Bakery.Core.Services;
+
+public interface IProductService
 {
-    public interface IProductService
-    {
-        Task<IEnumerable<Product>> GetAllAsync();
-        Task DeactivateAsync(Guid productId);
+    Task<IEnumerable<Product>> GetAllAsync();
+    Task DeactivateAsync(Guid productId);
 
-
-    }
 }
 
