@@ -15,6 +15,7 @@ builder.Services.AddDbContext<BakeryDbContext>(options =>
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

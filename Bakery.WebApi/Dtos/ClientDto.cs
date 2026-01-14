@@ -1,9 +1,8 @@
 ﻿namespace Bakery.WebApi.Dtos;
 
-public class ProductDto
+public class ClientDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = null!;
-    public decimal Price { get; set; }
-    public bool CanBeDeactivated { get; set; }
+    public string Email { get; set; } = null!;
 }
