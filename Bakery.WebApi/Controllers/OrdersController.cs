@@ -20,9 +20,11 @@ public class OrdersController : ControllerBase
     {
         var order = await _orderService.CreateAsync(request.ClientId);
 
-        return CreatedAtAction(nameof(GetOrdersByClient),
-            new { clientId = request.ClientId },
+        return CreatedAtAction(
+            nameof(GetOrderById),
+            new { orderId = order.Id },
             new { orderId = order.Id });
+
     }
 
     [HttpPost("{orderId}/items")]
@@ -63,6 +65,33 @@ public class OrdersController : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
+
+    [HttpGet("{orderId}")]
+    public async Task<IActionResult> GetOrderById(Guid orderId)
+    {
+        var order = await _orderService.GetByIdAsync(orderId);
+
+        if (order == null)
+            return NotFound(new { message = "Order not found." });
+
+        var dto = new OrderDto
+        {
+            Id = order.Id,
+            ClientId = order.ClientId,
+            CreatedAt = order.CreatedAt,
+            Status = order.Status.ToString(),
+            TotalAmount = order.GetTotalAmount(),
+            Items = order.Items.Select(i => new OrderItemDto
+            {
+                ProductId = i.ProductId,
+                Price = i.Price,
+                Quantity = i.Quantity
+            })
+        };
+
+        return Ok(dto);
+    }
+
 
     [HttpGet("/clients/{clientId}/orders")]
     public async Task<IActionResult> GetOrdersByClient(Guid clientId)

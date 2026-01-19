@@ -24,6 +24,14 @@ public class OrderService : IOrderService
         return order;
     }
 
+    public async Task<Order?> GetByIdAsync(Guid orderId)
+    {
+        return await _context.Orders
+            .Include(o => o.Items)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(o => o.Id == orderId);
+    }
+
     public async Task AddItemAsync(
         Guid orderId,
         Guid productId,
