@@ -3,10 +3,12 @@
 public class OrderItem
 {
     public Guid ProductId { get; private set; }
+    public Guid OrderId { get; private set; }
+
     public decimal Price { get; private set; }
     public int Quantity { get; private set; }
 
-    public OrderItem(Guid productId, decimal price, int quantity)
+    public OrderItem(Guid orderId, Guid productId, decimal price, int quantity)
     {
         if (quantity <= 0)
             throw new ArgumentException("Quantity must be greater than zero.");
@@ -14,10 +16,12 @@ public class OrderItem
         if (price <= 0)
             throw new ArgumentException("Price must be greater than zero.");
 
+        OrderId = orderId;
         ProductId = productId;
         Price = price;
         Quantity = quantity;
     }
+
 
     public decimal GetTotal()
     {

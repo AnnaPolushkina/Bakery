@@ -23,7 +23,8 @@ public class Order
         if (Status != OrderStatus.Created)
             throw new InvalidOperationException("Cannot modify order after creation.");
 
-        _items.Add(new OrderItem(productId, price, quantity));
+        _items.Add(new OrderItem(Id, productId, price, quantity));
+
     }
 
     public decimal GetTotalAmount()

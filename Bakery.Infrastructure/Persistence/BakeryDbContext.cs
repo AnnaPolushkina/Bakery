@@ -2,6 +2,7 @@
 using Bakery.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Bakery.Infrastructure.Persistence;
 
 public class BakeryDbContext : DbContext
@@ -21,7 +22,18 @@ public class BakeryDbContext : DbContext
         {
             entity.Property(p => p.Price)
                   .HasPrecision(10, 2);
+
         });
+
+        modelBuilder.Entity<OrderItem>(entity =>
+        {
+            entity.HasKey(i => new { i.OrderId, i.ProductId });
+        });
+
     }
+
+    public DbSet<Order> Orders => Set<Order>();
+    public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+
 
 }
