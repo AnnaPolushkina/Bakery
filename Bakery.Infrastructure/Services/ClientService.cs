@@ -44,4 +44,11 @@ public class ClientService : IClientService
 
         await _context.SaveChangesAsync();
     }
+
+    public async Task<bool> ExistsAsync(Guid clientId)
+    {
+        return await _context.Clients
+            .AnyAsync(c => c.Id == clientId && c.IsActive);
+    }
+
 }

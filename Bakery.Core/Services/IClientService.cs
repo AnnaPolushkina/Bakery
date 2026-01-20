@@ -7,4 +7,6 @@ public interface IClientService
     Task<IEnumerable<Client>> GetAllAsync();
     Task<Client> CreateAsync(string name, string email);
     Task DeactivateAsync(Guid clientId);
+    Task<bool> ExistsAsync(Guid clientId);
+
 }

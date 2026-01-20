@@ -9,22 +9,29 @@ namespace Bakery.WebApi.Controllers;
 public class OrdersController : ControllerBase
 {
     private readonly IOrderService _orderService;
-
-    public OrdersController(IOrderService orderService)
+    private readonly IClientService _clientService;
+    public OrdersController(
+    IOrderService orderService,
+    IClientService clientService)
     {
         _orderService = orderService;
+        _clientService = clientService;
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest request)
     {
+        var clientExists = await _clientService.ExistsAsync(request.ClientId);
+
+        if (!clientExists)
+            return BadRequest(new { message = "Client does not exist." });
+
         var order = await _orderService.CreateAsync(request.ClientId);
 
         return CreatedAtAction(
             nameof(GetOrderById),
             new { orderId = order.Id },
             new { orderId = order.Id });
-
     }
 
     [HttpPost("{orderId}/items")]
