@@ -34,4 +34,10 @@ public class ProductService : IProductService
 
         await _context.SaveChangesAsync();
     }
+
+    public async Task<bool> ExistsAsync(Guid productId)
+    {
+        return await _context.Products
+            .AnyAsync(p => p.Id == productId && p.IsActive);
+    }
 }

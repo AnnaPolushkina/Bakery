@@ -10,13 +10,18 @@ public class OrdersController : ControllerBase
 {
     private readonly IOrderService _orderService;
     private readonly IClientService _clientService;
+    private readonly IProductService _productService;
+
     public OrdersController(
-    IOrderService orderService,
-    IClientService clientService)
+        IOrderService orderService,
+        IClientService clientService,
+        IProductService productService)
     {
         _orderService = orderService;
         _clientService = clientService;
+        _productService = productService;
     }
+
 
     [HttpPost]
     public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest request)
@@ -36,9 +41,14 @@ public class OrdersController : ControllerBase
 
     [HttpPost("{orderId}/items")]
     public async Task<IActionResult> AddItem(
-        Guid orderId,
-        [FromBody] AddOrderItemRequest request)
+    Guid orderId,
+    [FromBody] AddOrderItemRequest request)
     {
+        var productExists = await _productService.ExistsAsync(request.ProductId);
+
+        if (!productExists)
+            return BadRequest(new { message = "Product does not exist or is inactive." });
+
         try
         {
             await _orderService.AddItemAsync(
@@ -58,6 +68,7 @@ public class OrdersController : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
+
 
     [HttpPost("{orderId}/confirm")]
     public async Task<IActionResult> Confirm(Guid orderId)

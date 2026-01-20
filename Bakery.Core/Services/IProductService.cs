@@ -6,6 +6,7 @@ public interface IProductService
 {
     Task<IEnumerable<Product>> GetAllAsync();
     Task DeactivateAsync(Guid productId);
+    Task<bool> ExistsAsync(Guid productId);
 
 }
 
