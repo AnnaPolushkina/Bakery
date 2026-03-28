@@ -1,5 +1,6 @@
 ﻿using Bakery.Core.Entities;
 using Bakery.Core.Services;
+using Bakery.Core.Exceptions;
 using Bakery.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,7 +39,7 @@ public class ClientService : IClientService
             .FirstOrDefaultAsync(c => c.Id == clientId);
 
         if (client == null)
-            throw new InvalidOperationException("Client not found.");
+            throw new NotFoundException("Order not found.");
 
         client.Deactivate();
 

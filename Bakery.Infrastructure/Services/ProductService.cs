@@ -1,5 +1,6 @@
 ﻿using Bakery.Core.Entities;
 using Bakery.Core.Services;
+using Bakery.Core.Exceptions;
 using Bakery.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,7 +29,7 @@ public class ProductService : IProductService
             .FirstOrDefaultAsync(p => p.Id == productId);
 
         if (product == null)
-            throw new InvalidOperationException("Product not found.");
+            throw new NotFoundException("Order not found.");
 
         product.Deactivate();
 
