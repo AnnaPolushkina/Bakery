@@ -1,8 +1,9 @@
 ﻿using Bakery.Core.Entities;
-using Bakery.Core.Services;
 using Bakery.Core.Exceptions;
+using Bakery.Core.Services;
 using Bakery.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Bakery.Infrastructure.Services;
 
@@ -30,6 +31,8 @@ public class ClientService : IClientService
         _context.Clients.Add(client);
         await _context.SaveChangesAsync();
 
+        Log.Information("Creating client {Email}", email);
+
         return client;
     }
 
@@ -42,6 +45,8 @@ public class ClientService : IClientService
             throw new NotFoundException("Client not found.");
 
         client.Deactivate();
+
+        Log.Information("Deactivating client {ClientId}", clientId);
 
         await _context.SaveChangesAsync();
     }

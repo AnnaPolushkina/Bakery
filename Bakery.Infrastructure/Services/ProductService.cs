@@ -1,8 +1,9 @@
 ﻿using Bakery.Core.Entities;
-using Bakery.Core.Services;
 using Bakery.Core.Exceptions;
+using Bakery.Core.Services;
 using Bakery.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Bakery.Infrastructure.Services;
 
@@ -32,6 +33,8 @@ public class ProductService : IProductService
             throw new NotFoundException("Product does not exist or is inactive.");
 
         product.Deactivate();
+
+        Log.Information("Deactivating product {ProductId}", productId);
 
         await _context.SaveChangesAsync();
     }

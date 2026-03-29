@@ -1,3 +1,4 @@
+using Serilog;
 using Bakery.Core.Services;
 using Bakery.Infrastructure.Persistence;
 using Bakery.Infrastructure.Seed;
@@ -5,9 +6,13 @@ using Bakery.Infrastructure.Services;
 using Bakery.WebApi.Middleware;
 using Microsoft.EntityFrameworkCore;
 
-
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog();
 
 builder.Services.AddDbContext<BakeryDbContext>(options =>
     options.UseSqlServer(

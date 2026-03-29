@@ -1,4 +1,5 @@
-﻿using Bakery.Core.Entities;
+﻿using Serilog;
+using Bakery.Core.Entities;
 using Bakery.Core.Services;
 using Bakery.Core.Exceptions;
 using Bakery.Infrastructure.Persistence;
@@ -29,10 +30,14 @@ public class OrderService : IOrderService
 
     public async Task<Order> CreateAsync(Guid clientId)
     {
+        Log.Information("Creating order for client {ClientId}", clientId);
+
         var order = new Order(clientId);
 
         _context.Orders.Add(order);
         await _context.SaveChangesAsync();
+
+        Log.Information("Order {OrderId} created", order.Id);
 
         return order;
     }
@@ -52,12 +57,16 @@ public class OrderService : IOrderService
 
         order.AddItem(productId, price, quantity);
 
+        Log.Information("Adding item to order {OrderId}", orderId);
+
         await _context.SaveChangesAsync();
     }
 
     public async Task ConfirmAsync(Guid orderId)
     {
         var order = await GetOrderOrThrow(orderId);
+
+        Log.Information("Confirming order {OrderId}", orderId);
 
         order.Confirm();
 

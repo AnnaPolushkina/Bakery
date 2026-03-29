@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Serilog;
+using System.Net;
 using System.Text.Json;
 using Bakery.Core.Exceptions;
 
@@ -21,6 +22,7 @@ public class ExceptionMiddleware
         }
         catch (Exception ex)
         {
+            Log.Error(ex, "An error occurred");
             await HandleExceptionAsync(context, ex);
         }
     }
