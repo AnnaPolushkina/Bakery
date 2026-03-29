@@ -39,7 +39,7 @@ public class ClientService : IClientService
             .FirstOrDefaultAsync(c => c.Id == clientId);
 
         if (client == null)
-            throw new NotFoundException("Order not found.");
+            throw new NotFoundException("Client not found.");
 
         client.Deactivate();
 

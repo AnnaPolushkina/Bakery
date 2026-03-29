@@ -33,37 +33,26 @@ public class ClientsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateClient([FromBody] CreateClientRequest request)
     {
-        try
-        {
-            var client = await _clientService.CreateAsync(request.Name, request.Email);
+        var client = await _clientService.CreateAsync(request.Name, request.Email);
 
-            var dto = new ClientDto
-            {
-                Id = client.Id,
-                Name = client.Name,
-                Email = client.Email
-            };
-
-            return CreatedAtAction(nameof(GetClients), dto);
-        }
-        catch (ArgumentException ex)
+        var dto = new ClientDto
         {
-            return BadRequest(new { message = ex.Message });
-        }
+            Id = client.Id,
+            Name = client.Name,
+            Email = client.Email
+        };
+
+        return CreatedAtAction(
+            nameof(GetClients),
+            new { id = client.Id },
+            dto);
     }
 
     [HttpPost("{id}/deactivate")]
     public async Task<IActionResult> DeactivateClient(Guid id)
     {
-        try
-        {
-            await _clientService.DeactivateAsync(id);
-            return NoContent();
-        }
-        catch (InvalidOperationException ex)
-        {
-            return NotFound(new { message = ex.Message });
-        }
+        await _clientService.DeactivateAsync(id);
+        return NoContent();
     }
 }
 

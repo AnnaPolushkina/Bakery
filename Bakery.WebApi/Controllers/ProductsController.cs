@@ -36,15 +36,8 @@ public class ProductsController : ControllerBase
     [HttpPost("{id}/deactivate")]
     public async Task<IActionResult> DeactivateProduct(Guid id)
     {
-        try
-        {
-            await _productService.DeactivateAsync(id);
-            return NoContent();
-        }
-        catch (InvalidOperationException ex)
-        {
-            return NotFound(new { message = ex.Message });
-        }
+        await _productService.DeactivateAsync(id);
+        return NoContent();
     }
 
 }

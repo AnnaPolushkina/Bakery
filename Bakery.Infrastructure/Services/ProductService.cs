@@ -29,7 +29,7 @@ public class ProductService : IProductService
             .FirstOrDefaultAsync(p => p.Id == productId);
 
         if (product == null)
-            throw new NotFoundException("Order not found.");
+            throw new NotFoundException("Product does not exist or is inactive.");
 
         product.Deactivate();
 

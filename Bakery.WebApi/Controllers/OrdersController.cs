@@ -29,14 +29,14 @@ public class OrdersController : ControllerBase
         var clientExists = await _clientService.ExistsAsync(request.ClientId);
 
         if (!clientExists)
-            return BadRequest(new { message = "Client does not exist." });
+            throw new ArgumentException("Client does not exist." );
 
         var order = await _orderService.CreateAsync(request.ClientId);
 
         return CreatedAtAction(
             nameof(GetOrderById),
             new { orderId = order.Id },
-            new { orderId = order.Id });
+            order.Id);
     }
 
     [HttpPost("{orderId}/items")]
@@ -47,50 +47,28 @@ public class OrdersController : ControllerBase
         var productExists = await _productService.ExistsAsync(request.ProductId);
 
         if (!productExists)
-            return BadRequest(new { message = "Product does not exist or is inactive." });
+            throw new ArgumentException("Product does not exist or is inactive.");
 
-        try
-        {
-            await _orderService.AddItemAsync(
-                orderId,
-                request.ProductId,
-                request.Price,
-                request.Quantity);
+        await _orderService.AddItemAsync(
+            orderId,
+            request.ProductId,
+            request.Price,
+            request.Quantity);
 
-            return NoContent();
-        }
-        catch (InvalidOperationException ex)
-        {
-            return NotFound(new { message = ex.Message });
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
+        return NoContent();
     }
-
 
     [HttpPost("{orderId}/confirm")]
     public async Task<IActionResult> Confirm(Guid orderId)
     {
-        try
-        {
-            await _orderService.ConfirmAsync(orderId);
-            return NoContent();
-        }
-        catch (InvalidOperationException ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
+        await _orderService.ConfirmAsync(orderId);
+        return NoContent();
     }
 
     [HttpGet("{orderId}")]
     public async Task<IActionResult> GetOrderById(Guid orderId)
     {
         var order = await _orderService.GetByIdAsync(orderId);
-
-        if (order == null)
-            return NotFound(new { message = "Order not found." });
 
         var dto = new OrderDto
         {

@@ -1,8 +1,9 @@
 using Bakery.Core.Services;
-using Bakery.Infrastructure.Services;
 using Bakery.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
 using Bakery.Infrastructure.Seed;
+using Bakery.Infrastructure.Services;
+using Bakery.WebApi.Middleware;
+using Microsoft.EntityFrameworkCore;
 
 
 
@@ -34,6 +35,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
